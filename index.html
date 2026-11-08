@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>KaGym</title>
+<style>
+:root {
+  --bg:#f4f5f2; --surface:#fff; --ink:#16201b; --muted:#5d6a63; --line:#dde2dc;
+  --accent:#0d7a5f; --accent-ink:#fff; --accent-soft:#dff1ea; --warn:#b4540a;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#101512;--surface:#1a211d;--ink:#eef2ee;--muted:#9aa8a0;--line:#2b352f;
+  --accent:#3fc79d;--accent-ink:#07211a;--accent-soft:#1b3a30;--warn:#f0a15c;color-scheme:dark;}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.4;
+  -webkit-text-size-adjust:100%;padding:max(16px,env(safe-area-inset-top)) 16px max(32px,env(safe-area-inset-bottom))}
+main{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1,h2{font-family:var(--display);margin:0;letter-spacing:.01em;text-wrap:balance}
+h1{font-size:36px;line-height:1}
+.sub{color:var(--muted);font-size:15px;margin:6px 0 0}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 0;text-align:center;
+  font:inherit;font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:2px;cursor:pointer}
+.day b{font-family:var(--display);font-size:20px;color:var(--ink);line-height:1}
+.day.today{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.day.off b{color:var(--muted)}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tab{font-family:var(--display);font-size:20px;font-weight:700;padding:10px 6px;border-radius:10px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink);cursor:pointer;line-height:1.1}
+.tab small{display:block;font-family:var(--body);font-weight:500;font-size:12px;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.tab[aria-selected="true"] small{color:var(--accent-ink);opacity:.85}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.prog-row{display:flex;justify-content:space-between;gap:12px}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:6px 0}
+.bar>i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.reset{font:inherit;font-size:14px;color:var(--muted);background:none;border:0;text-decoration:underline;cursor:pointer;padding:4px 0}
+ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.card.done{border-color:var(--accent);background:var(--accent-soft)}
+.photo{width:100%;aspect-ratio:4/3;background:var(--line);display:flex;align-items:center;justify-content:center;position:relative}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo .empty{text-align:center;color:var(--muted);font-size:14px;padding:12px}
+.photo .empty b{display:block;font-size:15px;color:var(--ink);margin-bottom:2px}
+.photo .addbtn{position:absolute;right:8px;bottom:8px;font:inherit;font-size:13px;font-weight:600;padding:7px 12px;border-radius:99px;
+  border:0;background:rgba(0,0,0,.65);color:#fff;cursor:pointer}
+.body{padding:14px;display:grid;grid-template-columns:44px 1fr;gap:6px 12px}
+.chk{width:44px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--accent-ink);font-size:22px;cursor:pointer;padding:0}
+.card.done .chk{background:var(--accent);border-color:var(--accent)}
+.name{font-family:var(--display);font-size:23px;font-weight:700;line-height:1.05}
+.equip{color:var(--muted);font-size:14px;margin-top:2px}
+.meta{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding-top:4px}
+.pill{background:var(--accent-soft);border-radius:99px;padding:4px 12px;font-weight:600;font-size:15px}
+.card.done .pill{background:var(--surface)}
+.load{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted)}
+.load input{width:76px;font:inherit;font-size:16px;padding:7px 8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.links{margin-left:auto;display:flex;gap:12px}
+.links a{font-size:15px;font-weight:600;color:var(--accent);text-decoration:none;padding:8px 0}
+.note{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:15px;display:flex;flex-direction:column;gap:8px}
+.note h2{font-size:20px}
+.note p,.note li{margin:0;color:var(--muted)}
+.note ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.note.warn{border-color:var(--warn)}
+.rest{text-align:center;padding:28px 16px}
+.rest h2{font-size:28px}
+.btn{font:inherit;font-weight:600;padding:12px 16px;border-radius:10px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.btn.alt{background:transparent;color:var(--accent)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){.bar>i{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>KaGym</h1>
+    <p class="sub" id="hoje"></p>
+  </header>
+  <div class="week" id="semana" role="group" aria-label="Semana"></div>
+  <div class="tabs" role="tablist" id="abas" aria-label="Escolha o treino"></div>
+  <section id="conteudo" aria-live="polite"></section>
+
+  <section class="note">
+    <h2>Como usar</h2>
+    <ul>
+      <li>Aquecimento: 5 a 8 minutos de caminhada ou bicicleta antes da musculação.</li>
+      <li>Descanso entre séries: 60 segundos de referência; suba para 90 s se precisar recuperar a respiração.</li>
+      <li>Duração estimada: 45 a 50 minutos por sessão.</li>
+      <li>Nas duas primeiras semanas, se estiver retomando, faça só 2 treinos de musculação por semana. Depois avance para 3.</li>
+      <li>Comece com carga leve a moderada e priorize a execução. Aumente a carga quando completar as repetições com facilidade e boa técnica.</li>
+    </ul>
+  </section>
+  <section class="note warn">
+    <h2>Atenção à lombar</h2>
+    <p>Como você relatou dor lombar, peça ao profissional da academia para conferir a sua execução no leg press, no hack squat e na elevação pélvica. Se algum exercício provocar ou aumentar a dor, interrompa e procure orientação.</p>
+  </section>
+  <section class="note">
+    <h2>Fotos e backup</h2>
+    <p id="status" role="status">Tudo fica salvo só neste aparelho. Use o backup para não perder nada.</p>
+    <div class="row">
+      <button class="btn" id="exportar" type="button">Exportar backup</button>
+      <button class="btn alt" id="importar" type="button">Importar backup</button>
+      <button class="btn alt" id="copiar" type="button">Copiar histórico (CSV)</button>
+    </div>
+    <input type="file" id="arqImport" accept="application/json,.json" hidden>
+    <input type="file" id="arqFoto" accept="image/*" hidden>
+  </section>
+  <p class="sub" style="font-size:13px">Este plano é uma referência geral e deve ser ajustado pelo profissional que acompanha seus treinos.</p>
+</main>
+<script>
+// [nome, aparelho, séries x reps, chave da foto, busca]
+var TREINOS = {
+  A: { nome: "Pernas e parte superior", dias: [1], itens: [
+    ["Leg press 45°", "Máquina leg press 45°", "3 x 10 a 12", "leg-press", "leg press 45 aparelho academia"],
+    ["Mesa flexora", "Máquina, deitado de barriga para baixo", "2 x 12", "mesa-flexora", "mesa flexora aparelho academia"],
+    ["Puxada frontal na polia", "Polia alta, barra larga", "3 x 10 a 12", "puxada-frontal", "puxada frontal polia aparelho academia"],
+    ["Supino na máquina", "Máquina de supino sentado", "2 x 12", "supino-maquina", "supino maquina aparelho academia"],
+    ["Rosca bíceps na polia", "Polia baixa, barra reta ou W", "2 x 12", "rosca-polia", "rosca biceps polia aparelho academia"],
+    ["Panturrilha na máquina", "Máquina de panturrilha", "2 x 15", "panturrilha", "panturrilha maquina aparelho academia"]
+  ]},
+  B: { nome: "Glúteos, pernas e braços", dias: [3], itens: [
+    ["Elevação pélvica na máquina", "Máquina de hip thrust", "3 x 12", "hip-thrust", "elevacao pelvica maquina hip thrust aparelho"],
+    ["Cadeira extensora", "Máquina, sentado", "2 x 12", "extensora", "cadeira extensora aparelho academia"],
+    ["Remada sentada", "Máquina ou polia baixa", "2 x 12", "remada-sentada", "remada sentada maquina aparelho academia"],
+    ["Desenvolvimento de ombros na máquina", "Máquina de ombros, sentado", "2 x 12", "desenv-ombros", "desenvolvimento ombros maquina aparelho academia"],
+    ["Rosca martelo com halteres", "Halteres, em pé ou sentado", "2 x 12", "rosca-martelo", "rosca martelo halteres academia"],
+    ["Tríceps na polia com corda", "Polia alta com corda", "2 x 12", "triceps-polia", "triceps polia corda aparelho academia"],
+    ["Cadeira abdutora", "Máquina, sentado", "2 x 15", "abdutora", "cadeira abdutora aparelho academia"]
+  ]},
+  C: { nome: "Pernas, glúteos e parte superior", dias: [5], itens: [
+    ["Hack squat", "Máquina hack squat", "2 x 10 a 12", "hack-squat", "hack squat maquina aparelho academia"],
+    ["Cadeira flexora", "Máquina, sentado", "2 x 12", "flexora", "cadeira flexora aparelho academia"],
+    ["Coice de glúteo na máquina", "Máquina de glúteo", "2 x 12 por perna", "coice-gluteo", "coice gluteo maquina aparelho academia"],
+    ["Crucifixo inverso na máquina", "Máquina peck deck, de frente para o encosto", "2 x 12", "crucifixo-inverso", "crucifixo inverso maquina aparelho academia"],
+    ["Tríceps na polia", "Polia alta", "2 x 12", "triceps-polia", "triceps polia aparelho academia"],
+    ["Crucifixo na máquina", "Máquina voador (peck deck)", "2 x 12", "crucifixo", "crucifixo maquina peck deck aparelho academia"],
+    ["Abdominal na máquina", "Máquina de abdominal", "2 x 12", "abdominal", "abdominal maquina aparelho academia"]
+  ]}
+};
+var PILATES = [2, 6];
+var SEM = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+var DIAS = ["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
+var KEY = "kagym-v1";
+var estado = { done:{}, cargas:{}, fotos:{}, hist:{} };
+try { var s = localStorage.getItem(KEY); if (s) { var p = JSON.parse(s); for (var k in estado) if (p[k]) estado[k] = p[k]; } } catch(e){}
+function salvar(){ try { localStorage.setItem(KEY, JSON.stringify(estado)); return true; } catch(e){ status("Sem espaço para salvar. Exporte o backup e apague fotos antigas."); return false; } }
+function status(t){ el("status").textContent = t; }
+function el(i){ return document.getElementById(i); }
+function pad(n){ return (n<10?"0":"")+n; }
+function esc(t){ return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;"); }
+
+var agora = new Date(), hoje = agora.getDay();
+var dataKey = agora.getFullYear()+"-"+pad(agora.getMonth()+1)+"-"+pad(agora.getDate());
+function treinoDoDia(d){ for (var k in TREINOS) if (TREINOS[k].dias.indexOf(d)>=0) return k; return null; }
+var atual = treinoDoDia(hoje) || "A";
+var h = (location.hash||"").replace("#treino-","").toUpperCase();
+if (TREINOS[h]) atual = h;
+
+var t = treinoDoDia(hoje);
+el("hoje").textContent = t ? "Hoje é "+DIAS[hoje]+": treino "+t+", "+TREINOS[t].nome.toLowerCase()+"."
+  : PILATES.indexOf(hoje)>=0 ? "Hoje é "+DIAS[hoje]+": dia de Pilates."
+  : "Hoje é "+DIAS[hoje]+": descanso. Se quiser, uma caminhada leve.";
+
+function desenhaSemana(){
+  var html="";
+  [1,2,3,4,5,6,0].forEach(function(d){
+    var tr=treinoDoDia(d), pil=PILATES.indexOf(d)>=0;
+    html+='<button class="day'+(d===hoje?" today":"")+(tr?"":" off")+'" data-t="'+(tr||"")+'"><span>'+SEM[d]+'</span><b>'+(tr||(pil?"Pil":"-"))+'</b></button>';
+  });
+  el("semana").innerHTML=html;
+}
+el("semana").onclick=function(e){ var b=e.target.closest(".day"); if(b&&b.dataset.t) escolher(b.dataset.t); };
+function desenhaAbas(){
+  var html="";
+  Object.keys(TREINOS).forEach(function(k){
+    html+='<button class="tab" role="tab" data-k="'+k+'" aria-selected="'+(k===atual)+'">'+k+'<small>'+TREINOS[k].nome.split(",")[0].split(" e ")[0]+'</small></button>';
+  });
+  el("abas").innerHTML=html;
+}
+el("abas").onclick=function(e){ var b=e.target.closest(".tab"); if(b) escolher(b.dataset.k); };
+function escolher(k){ atual=k; try{history.replaceState(null,"","#treino-"+k.toLowerCase());}catch(e){} desenhaAbas(); desenhaLista(); }
+
+function desenhaLista(){
+  var T=TREINOS[atual];
+  var feitos=T.itens.filter(function(_,i){return estado.done[dataKey+atual+i];}).length;
+  var html='<div><div class="prog-row"><strong>Treino '+atual+': '+T.nome+'</strong><span>'+feitos+'/'+T.itens.length+'</span></div>'+
+    '<div class="bar"><i style="width:'+(100*feitos/T.itens.length)+'%"></i></div>'+
+    '<button class="reset" id="limpar" type="button">Limpar marcações de hoje</button></div><ol>';
+  T.itens.forEach(function(it,i){
+    var id=atual+i, ok=!!estado.done[dataKey+id], carga=estado.cargas[id]||"", foto=estado.fotos[it[3]];
+    html+='<li class="card'+(ok?" done":"")+'" data-i="'+i+'">'+
+      '<div class="photo">'+(foto?'<img alt="Foto do aparelho: '+esc(it[0])+'" src="'+foto+'">':
+        '<div class="empty"><b>Sem foto ainda</b>Toque em "Foto" e tire uma do aparelho da sua academia</div>')+
+      '<button class="addbtn" type="button" data-foto="'+it[3]+'">'+(foto?"Trocar foto":"Foto")+'</button></div>'+
+      '<div class="body">'+
+      '<button class="chk" type="button" aria-pressed="'+ok+'" aria-label="Marcar '+esc(it[0])+' como feito">'+(ok?"✓":"")+'</button>'+
+      '<div><div class="name">'+(i+1)+'. '+it[0]+'</div><div class="equip">'+it[1]+'</div></div>'+
+      '<div class="meta"><span class="pill">'+it[2]+'</span>'+
+      '<label class="load">Carga <input type="text" inputmode="decimal" placeholder="kg" value="'+esc(carga)+'" data-id="'+id+'"></label>'+
+      '<span class="links"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q='+encodeURIComponent(it[4])+'">Fotos</a>'+
+      '<a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query='+encodeURIComponent("como fazer "+it[0])+'">Vídeo</a></span></div></div></li>';
+  });
+  el("conteudo").innerHTML=html+"</ol>";
+}
+function registra(i){
+  var it=TREINOS[atual].itens[i], id=atual+i;
+  estado.hist[dataKey+"_"+id]={data:dataKey,treino:atual,exercicio:it[0],series:it[2],carga:estado.cargas[id]||"",feito:!!estado.done[dataKey+id]};
+  salvar();
+}
+el("conteudo").addEventListener("click",function(e){
+  var chk=e.target.closest(".chk");
+  if(chk){ var i=chk.closest(".card").dataset.i, k=dataKey+atual+i;
+    if(estado.done[k]) delete estado.done[k]; else estado.done[k]=1;
+    registra(i); desenhaLista(); return; }
+  var fb=e.target.closest("[data-foto]");
+  if(fb){ fotoAlvo=fb.dataset.foto; el("arqFoto").value=""; el("arqFoto").click(); return; }
+  if(e.target.id==="limpar"){
+    TREINOS[atual].itens.forEach(function(_,i){ delete estado.done[dataKey+atual+i]; if(estado.hist[dataKey+"_"+atual+i]) registra(i); });
+    desenhaLista();
+  }
+});
+el("conteudo").addEventListener("input",function(e){
+  var id=e.target.dataset&&e.target.dataset.id; if(!id) return;
+  estado.cargas[id]=e.target.value;
+  clearTimeout(window["_t"+id]); window["_t"+id]=setTimeout(function(){ registra(id.slice(1)); },600);
+});
+
+// Fotos: reduz para 720 px e guarda no aparelho
+var fotoAlvo=null;
+el("arqFoto").addEventListener("change",function(){
+  var f=this.files&&this.files[0]; if(!f||!fotoAlvo) return;
+  var rd=new FileReader();
+  rd.onload=function(){
+    var im=new Image();
+    im.onload=function(){
+      var m=720, w=im.width, hh=im.height, r=Math.min(1,m/Math.max(w,hh));
+      var c=document.createElement("canvas"); c.width=Math.round(w*r); c.height=Math.round(hh*r);
+      c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+      var antes=estado.fotos[fotoAlvo];
+      estado.fotos[fotoAlvo]=c.toDataURL("image/jpeg",.72);
+      if(salvar()) status("Foto salva neste aparelho."); else { if(antes) estado.fotos[fotoAlvo]=antes; else delete estado.fotos[fotoAlvo]; }
+      desenhaLista();
+    };
+    im.onerror=function(){ status("Não consegui abrir essa imagem."); };
+    im.src=rd.result;
+  };
+  rd.readAsDataURL(f);
+});
+
+// Backup
+el("exportar").onclick=function(){
+  var blob=new Blob([JSON.stringify(estado)],{type:"application/json"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="kagym-backup-"+dataKey+".json";
+  document.body.appendChild(a); a.click(); a.remove(); status("Backup gerado. Salve o arquivo na pasta KaGym.");
+};
+el("importar").onclick=function(){ el("arqImport").value=""; el("arqImport").click(); };
+el("arqImport").addEventListener("change",function(){
+  var f=this.files&&this.files[0]; if(!f) return;
+  var rd=new FileReader();
+  rd.onload=function(){ try{ var p=JSON.parse(rd.result); for(var k in estado) estado[k]=p[k]||{}; salvar(); desenhaLista(); status("Backup importado."); }catch(e){ status("Arquivo de backup inválido."); } };
+  rd.readAsText(f);
+});
+el("copiar").onclick=function(){
+  var L=["Data,Treino,Exercício,Séries x Reps,Carga (kg),Feito"];
+  Object.keys(estado.hist).map(function(k){return estado.hist[k];})
+    .filter(function(o){return o.carga!==""||o.feito;})
+    .sort(function(a,b){return a.data<b.data?-1:a.data>b.data?1:0;})
+    .forEach(function(o){ L.push([o.data,o.treino,'"'+o.exercicio+'"','"'+o.series+'"',String(o.carga).replace(",","."),o.feito?"sim":"não"].join(",")); });
+  try{ navigator.clipboard.writeText(L.join("\n")).then(function(){status("Histórico copiado.");},function(){status("Não deixou copiar. Tente de novo.");}); }
+  catch(e){ status("Não deixou copiar. Tente de novo."); }
+};
+
+desenhaSemana(); desenhaAbas(); desenhaLista();
+</script>
+</body>
+</html>
