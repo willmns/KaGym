@@ -46,6 +46,7 @@ ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12p
 .card.done{border-color:var(--accent);background:var(--accent-soft)}
 .photo{width:100%;aspect-ratio:4/3;background:var(--line);display:flex;align-items:center;justify-content:center;position:relative}
 .photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo .empty[hidden]{display:none}
 .photo .empty{text-align:center;color:var(--muted);font-size:14px;padding:12px}
 .photo .empty b{display:block;font-size:15px;color:var(--ink);margin-bottom:2px}
 .photo .addbtn{position:absolute;right:8px;bottom:8px;font:inherit;font-size:13px;font-weight:600;padding:7px 12px;border-radius:99px;
@@ -194,9 +195,9 @@ function desenhaLista(){
   T.itens.forEach(function(it,i){
     var id=atual+i, ok=!!estado.done[dataKey+id], carga=estado.cargas[id]||"", foto=estado.fotos[it[3]];
     html+='<li class="card'+(ok?" done":"")+'" data-i="'+i+'">'+
-      '<div class="photo">'+(foto?'<img alt="Foto do aparelho: '+esc(it[0])+'" src="'+foto+'">':
-        '<div class="empty"><b>Sem foto ainda</b>Toque em "Foto" e tire uma do aparelho da sua academia</div>')+
-      '<button class="addbtn" type="button" data-foto="'+it[3]+'">'+(foto?"Trocar foto":"Foto")+'</button></div>'+
+      '<div class="photo"><img alt="Foto do aparelho: '+esc(it[0])+'" src="'+(foto||("fotos/"+it[3]+".jpg"))+'"'+(foto?'':' data-repo="1"')+'>'+
+        '<div class="empty" hidden><b>Sem foto ainda</b>Toque em "Foto" e tire uma do aparelho da sua academia</div>'+
+      '<button class="addbtn" type="button" data-foto="'+it[3]+'">'+(foto?"Trocar foto":"Minha foto")+'</button></div>'+
       '<div class="body">'+
       '<button class="chk" type="button" aria-pressed="'+ok+'" aria-label="Marcar '+esc(it[0])+' como feito">'+(ok?"✓":"")+'</button>'+
       '<div><div class="name">'+(i+1)+'. '+it[0]+'</div><div class="equip">'+it[1]+'</div></div>'+
@@ -230,6 +231,11 @@ el("conteudo").addEventListener("input",function(e){
   clearTimeout(window["_t"+id]); window["_t"+id]=setTimeout(function(){ registra(id.slice(1)); },600);
 });
 
+// Foto do repositório (fotos/<chave>.jpg): se não existir, mostra o aviso
+document.addEventListener("error",function(e){
+  var im=e.target; if(!im||im.tagName!=="IMG"||!im.dataset.repo) return;
+  im.hidden=true; var v=im.parentNode.querySelector(".empty"); if(v) v.hidden=false;
+},true);
 // Fotos: reduz para 720 px e guarda no aparelho
 var fotoAlvo=null;
 el("arqFoto").addEventListener("change",function(){
