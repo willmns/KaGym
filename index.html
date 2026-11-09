@@ -96,6 +96,7 @@ main{padding-bottom:84px}
 <main>
   <header>
     <h1>KaGym</h1>
+    <p class="sub">Fase 1: adaptação (4 semanas). 3 treinos por semana, só em máquinas, com 2 séries leves por exercício.</p>
     <p class="sub" id="hoje"></p>
   </header>
   <div class="week" id="semana" role="group" aria-label="Semana"></div>
@@ -103,18 +104,38 @@ main{padding-bottom:84px}
   <section id="conteudo" aria-live="polite"></section>
 
   <section class="note">
-    <h2>Como usar</h2>
+    <h2>Como executar</h2>
     <ul>
-      <li>Aquecimento: 5 a 8 minutos de caminhada ou bicicleta antes da musculação.</li>
-      <li>Descanso entre séries: 60 segundos de referência; suba para 90 s se precisar recuperar a respiração.</li>
-      <li>Duração estimada: 45 a 50 minutos por sessão.</li>
-      <li>Nas duas primeiras semanas, se estiver retomando, faça só 2 treinos de musculação por semana. Depois avance para 3.</li>
-      <li>Comece com carga leve a moderada e priorize a execução. Aumente a carga quando completar as repetições com facilidade e boa técnica.</li>
+      <li><b>Aquecimento:</b> 5 a 8 minutos de caminhada leve antes de começar.</li>
+      <li><b>Descanso entre séries:</b> 60 a 90 segundos, mais se precisar recuperar o fôlego.</li>
+      <li><b>Carga:</b> escolha um peso com o qual sobrem 3 a 4 repetições. Ninguém treina até a falha nesta fase.</li>
+      <li><b>Ritmo:</b> subir em 1 a 2 segundos e descer em 3, sem usar impulso.</li>
+      <li><b>Ajuste dos aparelhos:</b> peça ajuda ao profissional da academia para regular banco e encosto de cada máquina na primeira semana e anote as regulagens.</li>
+      <li><b>Caminhada:</b> nos dias sem musculação, 20 a 30 minutos em ritmo leve. Sem cardio extra nesta fase.</li>
     </ul>
   </section>
   <section class="note warn">
-    <h2>Atenção à lombar</h2>
-    <p>Como você relatou dor lombar, peça ao profissional da academia para conferir a sua execução no leg press, no hack squat e na elevação pélvica. Se algum exercício provocar ou aumentar a dor, interrompa e procure orientação.</p>
+    <h2>Cuidados com o corpo e a lombar</h2>
+    <ul>
+      <li><b>Calor:</b> costuma piorar o inchaço. Prefira ambiente ventilado e hidrate-se bem.</li>
+      <li><b>Joelhos e cotovelos:</b> não trave as articulações no fim do movimento, principalmente na extensora.</li>
+      <li><b>Hematomas e dor ao toque:</b> acolchoe os apoios e ajuste os bancos para não apertar a pele.</li>
+      <li><b>Compressão no treino:</b> pergunte ao médico vascular ou ao fisioterapeuta se ajuda no seu caso.</li>
+      <li><b>Dor muscular:</b> normal por 1 a 2 dias nas primeiras semanas. Dor articular, aguda ou na lombar é motivo para parar o exercício e falar com o profissional da academia.</li>
+      <li><b>Dia de dor forte:</b> reduza a carga em vez de pular o treino.</li>
+    </ul>
+  </section>
+  <section class="note">
+    <h2>Fechamento da fase 1</h2>
+    <p><b>Na semana 1:</b> meça com fita braço, coxa e cintura (mesma hora do dia) e tire fotos de frente e de lado. Anote a carga de cada exercício.</p>
+    <p><b>Ao fim da semana 4:</b> meça e fotografe de novo. A balança engana, porque o músculo ganho compensa a gordura perdida.</p>
+    <p>Para passar à fase 2, três sinais precisam estar presentes:</p>
+    <ul>
+      <li>Terminar os treinos sem dor aguda.</li>
+      <li>Estar recuperada em até 48 horas.</li>
+      <li>Completar as repetições com a técnica firme.</li>
+    </ul>
+    <p>Se algum falhar, repita a semana em vez de avançar.</p>
   </section>
   <section class="note">
     <h2>Fotos e backup</h2>
@@ -133,53 +154,154 @@ main{padding-bottom:84px}
 <script>
 // [nome, aparelho, séries x reps, chave da foto, busca]
 var TREINOS = {
-  A: { nome: "Pernas e parte superior", dias: [1], itens: [
-    ["Leg press 45°", "Máquina leg press 45°", "3 x 10 a 12", "leg-press", "leg press 45 aparelho academia"],
-    ["Mesa flexora", "Máquina, deitado de barriga para baixo", "2 x 12", "mesa-flexora", "mesa flexora aparelho academia"],
-    ["Puxada frontal na polia", "Polia alta, barra larga", "3 x 10 a 12", "puxada-frontal", "puxada frontal polia aparelho academia"],
-    ["Supino na máquina", "Máquina de supino sentado", "2 x 12", "supino-maquina", "supino maquina aparelho academia"],
-    ["Rosca bíceps na polia", "Polia baixa, barra reta ou W", "2 x 12", "rosca-polia", "rosca biceps polia aparelho academia"],
-    ["Panturrilha na máquina", "Máquina de panturrilha", "2 x 15", "panturrilha", "panturrilha maquina aparelho academia"]
-  ]},
-  B: { nome: "Glúteos, pernas e braços", dias: [3], itens: [
-    ["Elevação pélvica na máquina", "Máquina de hip thrust", "3 x 12", "hip-thrust", "elevacao pelvica maquina hip thrust aparelho"],
-    ["Cadeira extensora", "Máquina, sentado", "2 x 12", "extensora", "cadeira extensora aparelho academia"],
-    ["Remada sentada", "Máquina ou polia baixa", "2 x 12", "remada-sentada", "remada sentada maquina aparelho academia"],
-    ["Desenvolvimento de ombros na máquina", "Máquina de ombros, sentado", "2 x 12", "desenv-ombros", "desenvolvimento ombros maquina aparelho academia"],
-    ["Rosca martelo com halteres", "Halteres, em pé ou sentado", "2 x 12", "rosca-martelo", "rosca martelo halteres academia"],
-    ["Tríceps na polia com corda", "Polia alta com corda", "2 x 12", "triceps-polia", "triceps polia corda aparelho academia"],
-    ["Cadeira abdutora", "Máquina, sentado", "2 x 15", "abdutora", "cadeira abdutora aparelho academia"]
-  ]},
-  C: { nome: "Pernas, glúteos e parte superior", dias: [5], itens: [
-    ["Hack squat", "Máquina hack squat", "2 x 10 a 12", "hack-squat", "hack squat maquina aparelho academia"],
-    ["Cadeira flexora", "Máquina, sentado", "2 x 12", "flexora", "cadeira flexora aparelho academia"],
-    ["Coice de glúteo na máquina", "Máquina de glúteo", "2 x 12 por perna", "coice-gluteo", "coice gluteo maquina aparelho academia"],
-    ["Crucifixo inverso na máquina", "Máquina peck deck, de frente para o encosto", "2 x 12", "crucifixo-inverso", "crucifixo inverso maquina aparelho academia"],
-    ["Tríceps na polia", "Polia alta", "2 x 12", "triceps-polia", "triceps polia aparelho academia"],
-    ["Crucifixo na máquina", "Máquina voador (peck deck)", "2 x 12", "crucifixo", "crucifixo maquina peck deck aparelho academia"],
-    ["Abdominal na máquina", "Máquina de abdominal", "2 x 12", "abdominal", "abdominal maquina aparelho academia"]
-  ]}
+ "A": {
+  "nome": "Pernas (quadríceps e glúteos)",
+  "curto": "Pernas",
+  "dias": [
+   1
+  ],
+  "itens": [
+   [
+    "Leg press",
+    "Descer só até a lombar não descolar do encosto",
+    "2 x 12 a 15",
+    "leg-press",
+    "leg press 45 aparelho academia"
+   ],
+   [
+    "Cadeira extensora",
+    "Carga leve, sem travar o joelho em cima",
+    "2 x 12 a 15",
+    "extensora",
+    "cadeira extensora aparelho academia"
+   ],
+   [
+    "Elevação pélvica na máquina",
+    "Subir apertando o glúteo, sem arquear a lombar",
+    "2 x 12",
+    "hip-thrust",
+    "elevacao pelvica maquina hip thrust aparelho"
+   ],
+   [
+    "Cadeira abdutora",
+    "Controlar a volta, sem jogar o peso",
+    "2 x 15",
+    "abdutora",
+    "cadeira abdutora aparelho academia"
+   ],
+   [
+    "Panturrilha na máquina",
+    "Descida lenta",
+    "2 x 15",
+    "panturrilha",
+    "panturrilha maquina aparelho academia"
+   ]
+  ]
+ },
+ "B": {
+  "nome": "Superior",
+  "curto": "Superior",
+  "dias": [
+   3
+  ],
+  "itens": [
+   [
+    "Puxada frontal",
+    "Puxar com as costas, sem balançar o tronco",
+    "2 x 12 a 15",
+    "puxada-frontal",
+    "puxada frontal polia aparelho academia"
+   ],
+   [
+    "Remada baixa, pegada neutra",
+    "Peito aberto, sem arredondar a coluna",
+    "2 x 12 a 15",
+    "remada-baixa",
+    "remada baixa pegada neutra polia academia"
+   ],
+   [
+    "Supino na máquina",
+    "Ombros para trás e para baixo",
+    "2 x 12 a 15",
+    "supino-maquina",
+    "supino maquina aparelho academia"
+   ],
+   [
+    "Elevação lateral na máquina",
+    "Carga leve, subir até a altura do ombro",
+    "2 x 12 a 15",
+    "elevacao-lateral",
+    "elevacao lateral maquina aparelho academia"
+   ],
+   [
+    "Crucifixo inverso na máquina",
+    "Trabalha o ombro de trás e a postura",
+    "2 x 12 a 15",
+    "crucifixo-inverso",
+    "crucifixo inverso maquina aparelho academia"
+   ]
+  ]
+ },
+ "C": {
+  "nome": "Posterior e glúteos",
+  "curto": "Posterior",
+  "dias": [
+   5
+  ],
+  "itens": [
+   [
+    "Cadeira flexora",
+    "Descida lenta",
+    "2 x 12 a 15",
+    "flexora",
+    "cadeira flexora aparelho academia"
+   ],
+   [
+    "Leg press horizontal (pés altos)",
+    "Pés altos e um pouco afastados, mais glúteo e posterior",
+    "2 x 12 a 15",
+    "leg-press-horizontal",
+    "leg press horizontal aparelho academia"
+   ],
+   [
+    "Coice de glúteo na máquina",
+    "Sem arquear a lombar",
+    "2 x 12 por perna",
+    "coice-gluteo",
+    "coice gluteo maquina aparelho academia"
+   ],
+   [
+    "Cadeira adutora",
+    "Equilibra a abdutora do treino A",
+    "2 x 15",
+    "adutora",
+    "cadeira adutora aparelho academia"
+   ],
+   [
+    "Panturrilha sentada",
+    "Descida lenta",
+    "2 x 15",
+    "panturrilha",
+    "panturrilha sentada maquina aparelho academia"
+   ]
+  ]
+ }
 };
 var FOTOS = {
- "abdominal": "https://www.kikos.com.br/media/catalog/product/cache/041e82462066eef1ae3402cf9c4986f8/i/m/img_site_0010_tts51_-_abdominal_-_linha_titanium_-_kikos_pro_-_sku_i000235_1_1.jpg",
- "rosca-martelo": "https://totalpass.com/wp-content/uploads/2025/01/rosca-martelo.jpg",
- "triceps-polia": "https://blog.ciaathletica.com.br/wp-content/uploads/2023/07/Cia-Athletica-triceps-corda-mulher-exercicio-braco-Autores-GS2-Marketing-Divulgacao.jpg",
  "abdutora": "https://ergolife.com.br/wp-content/uploads/2020/04/Ergolife-Adutor-Absutor-G3-Cinza-1.jpg",
  "coice-gluteo": "https://www.kikos.com.br/media/catalog/product/cache/041e82462066eef1ae3402cf9c4986f8/f/o/fotos_site_c2s78_-_gluteo_-_linha_concept_ii_-_kikos_pro_-_sku_i002119.jpg",
- "crucifixo": "https://www.aheadsports.com.br/upload/produto/imagem/72fab59815194e6936cb780e6ec5597f.webp",
- "desenv-ombros": "https://images.tcdn.com.br/img/img_prod/450774/maquina_de_desenvolvimento_de_ombros_articulado_ultrawod_1431_variacao_2809_1_50b31c8c94b67fa134266b23c5b76a74.png",
  "extensora": "https://img.irroba.com.br/fit-in/1000x1000/filters:format(webp):fill(fff):quality(80)/natuoaeu/catalog/produtos-2025/academia/equipamentos-de-musculacao/sku-73-cadeira-extensora-sentada-maquina-80kg-consport/cadeira-extensora-sentada-m-quina-80kg-natrus-2-0.jpg",
  "flexora": "https://img.irroba.com.br/fit-in/1000x1000/filters:format(webp):fill(fff):quality(80)/natuoaeu/catalog/produtos-2025/linha-f/cadeira-flexora-linha-cs-f23.jpg",
- "hack-squat": "https://totalhealth.com.br/uploads/pagina/elemento/campo/2024/01/euY5JuVlRtfhpso2/639rxs-1.jpg",
  "hip-thrust": "https://totalhealth.com.br/uploads/pagina/elemento/campo/2025/02/hFtobWmRFM5IuocE/660rxs-2.jpg",
  "leg-press": "https://images.tcdn.com.br/img/img_prod/645555/noticia_8541999256875a7f858d1d.jpg",
- "mesa-flexora": "https://cdn.awsli.com.br/329/329912/produto/325006792/66f165_18306125ed344f2babca7725dcfef16e-mv2-photoroom-6i6rfavs2r.png",
  "panturrilha": "https://www.xfitnessequipamentos.com.br/wp-content/uploads/2021/05/panturrilha-sentada-xtreme.jpg",
  "puxada-frontal": "https://images.tcdn.com.br/img/img_prod/450774/aparelho_puxada_alta_e_baixa_conjugada_para_musculacao_ultrawod_1222_1_93ef9973b35a20186c9b2dc527fc2222.jpg",
- "remada-sentada": "https://img.irroba.com.br/filters:format(webp):fill(fff):quality(80)/natuoaeu/catalog/produtos-2025/academia/equipamentos-de-musculacao/linha-pl/cst-pl08/pl08.jpg",
- "rosca-polia": "https://s3.amazonaws.com/prod.skimble/assets/1905257/image_iphone.jpg",
  "supino-maquina": "https://cdn.awsli.com.br/2500x2500/1963/1963758/produto/157384428/5b9904b36e.jpg",
- "crucifixo-inverso": "https://www.aheadsports.com.br/upload/produto/imagem/72fab59815194e6936cb780e6ec5597f.webp"
+ "crucifixo-inverso": "https://www.aheadsports.com.br/upload/produto/imagem/72fab59815194e6936cb780e6ec5597f.webp",
+ "remada-baixa": "https://totalpass.com/wp-content/uploads/2025/12/remada-3.png",
+ "elevacao-lateral": "https://totalhealth.com.br/uploads/pagina/elemento/campo/2021/06/1Wpca4u7CIkzNxlp/506rxs-1.jpg",
+ "leg-press-horizontal": "https://img.irroba.com.br/filters:format(webp):fill(transparent):quality(80)/natuoaeu/catalog/produtos-2025/academia/equipamentos-de-musculacao/linha-fb/csp-fb03/fb03.png",
+ "adutora": "https://ergolife.com.br/wp-content/uploads/2021/07/Ergolife-Maquina-Adutora_Abdutora-G4.jpg"
 };
 var INFO = {
  "leg-press": {
@@ -192,17 +314,6 @@ var INFO = {
   ],
   "d": "Joelhos na direção dos pés, sem cair para dentro. Expire ao empurrar.",
   "c": "Se o quadril descolar do banco no fim da descida, diminua a amplitude: isso sobrecarrega a lombar. Como você relatou dor lombar, peça ao profissional para conferir sua execução."
- },
- "mesa-flexora": {
-  "m": "Posteriores da coxa (isquiotibiais)",
-  "p": [
-   "Deite de barriga para baixo, com os joelhos logo na borda do banco.",
-   "Ajuste o rolo logo acima dos calcanhares.",
-   "Leve os calcanhares em direção ao bumbum e segure 1 segundo.",
-   "Volte em 2 a 3 segundos, sem soltar o peso."
-  ],
-  "d": "Mantenha o quadril colado no banco durante todo o movimento.",
-  "c": "Se o quadril levantar, a carga está alta demais."
  },
  "puxada-frontal": {
   "m": "Dorsais (costas), bíceps e parte de trás do ombro",
@@ -225,17 +336,6 @@ var INFO = {
   ],
   "d": "Expire ao empurrar e inspire ao voltar.",
   "c": "Não deixe os ombros subirem em direção às orelhas."
- },
- "rosca-polia": {
-  "m": "Bíceps",
-  "p": [
-   "Em pé, de frente para a polia baixa, com a barra nas mãos.",
-   "Cotovelos colados ao tronco.",
-   "Dobre os cotovelos até a barra chegar perto dos ombros.",
-   "Desça devagar até esticar quase por completo."
-  ],
-  "d": "Só o antebraço se move. O tronco fica parado.",
-  "c": "Se precisar balançar o corpo para subir, reduza a carga."
  },
  "panturrilha": {
   "m": "Panturrilha (gastrocnêmio e sóleo)",
@@ -269,50 +369,6 @@ var INFO = {
   "d": "Contraia a coxa no topo do movimento.",
   "c": "Não balance o tronco nem trave o joelho com força no final."
  },
- "remada-sentada": {
-  "m": "Dorsais, músculos entre as escápulas e bíceps",
-  "p": [
-   "Sente com a coluna ereta e o peito aberto.",
-   "Puxe levando os cotovelos para trás e aproximando as escápulas.",
-   "Segure 1 segundo no final.",
-   "Volte devagar, sem arredondar as costas."
-  ],
-  "d": "Imagine esmagar uma bolinha entre as escápulas.",
-  "c": "Não jogue o tronco para trás para ajudar na puxada."
- },
- "desenv-ombros": {
-  "m": "Ombros (deltoides) e tríceps",
-  "p": [
-   "Ajuste o banco para as pegadas ficarem na altura dos ombros.",
-   "Costas apoiadas no encosto.",
-   "Empurre para cima sem travar os cotovelos.",
-   "Desça devagar até os cotovelos formarem uns 90°."
-  ],
-  "d": "Abdômen firme para a lombar não arquear.",
-  "c": "Se a lombar sair do encosto, reduza a carga."
- },
- "rosca-martelo": {
-  "m": "Bíceps, braquial e antebraço",
-  "p": [
-   "Em pé ou sentado, halteres ao lado do corpo com as palmas voltadas uma para a outra.",
-   "Cotovelos colados ao tronco.",
-   "Dobre os cotovelos levando os halteres aos ombros, sem girar o punho.",
-   "Desça devagar."
-  ],
-  "d": "Pode alternar um braço de cada vez.",
-  "c": "Evite balançar o corpo para subir o peso."
- },
- "triceps-polia": {
-  "m": "Tríceps",
-  "p": [
-   "Em pé, de frente para a polia alta, com a corda nas mãos.",
-   "Cotovelos colados ao tronco e antebraços na altura do peito.",
-   "Estique os braços para baixo, abrindo levemente as pontas da corda no final.",
-   "Volte devagar até os cotovelos formarem uns 90°."
-  ],
-  "d": "Só os antebraços se movem. Os cotovelos ficam parados.",
-  "c": "Se os ombros ou o tronco entrarem no movimento, diminua a carga."
- },
  "abdutora": {
   "m": "Glúteo médio e músculos laterais do quadril",
   "p": [
@@ -322,16 +378,6 @@ var INFO = {
   ],
   "d": "Quadril colado ao banco o tempo todo.",
   "c": "Não use impulso nem incline o tronco para ajudar."
- },
- "hack-squat": {
-  "m": "Quadríceps e glúteos",
-  "p": [
-   "Costas e quadril apoiados, pés na largura dos ombros.",
-   "Destrave e desça controlando até os joelhos chegarem perto de 90°.",
-   "Empurre pelos calcanhares para subir, sem travar os joelhos."
-  ],
-  "d": "Pés mais baixos na plataforma pedem mais da coxa. Pés mais altos pedem mais do glúteo.",
-  "c": "Se o quadril descolar do encosto, diminua a descida. Como você relatou dor lombar, peça conferência do movimento ao profissional."
  },
  "flexora": {
   "m": "Posteriores da coxa (isquiotibiais)",
@@ -366,29 +412,52 @@ var INFO = {
   "d": "Carga leve e movimento limpo. Esse músculo é pequeno.",
   "c": "Não encolha os ombros em direção às orelhas."
  },
- "crucifixo": {
-  "m": "Peitoral",
+ "remada-baixa": {
+  "m": "Dorsais, músculos entre as escápulas e bíceps",
   "p": [
-   "Costas coladas no encosto, cotovelos levemente dobrados na altura do peito.",
-   "Junte os braços à frente, apertando o peito por 1 segundo.",
-   "Volte devagar, sem deixar os braços irem muito para trás."
+   "Sente com os joelhos levemente dobrados e a coluna ereta.",
+   "Segure o triângulo com as palmas voltadas uma para a outra.",
+   "Puxe levando os cotovelos junto ao corpo e aproximando as escápulas.",
+   "Volte devagar, sem arredondar as costas."
   ],
-  "d": "Imagine abraçar uma árvore grande.",
-  "c": "Voltar demais com os braços sobrecarrega o ombro."
+  "d": "Peito aberto e olhar à frente durante toda a série.",
+  "c": "Não jogue o tronco para trás para ajudar na puxada."
  },
- "abdominal": {
-  "m": "Abdômen (reto abdominal)",
+ "elevacao-lateral": {
+  "m": "Ombros (parte lateral do deltoide)",
   "p": [
-   "Ajuste o assento e use uma carga leve.",
-   "Contraia o abdômen aproximando as costelas do quadril, expirando.",
-   "Volte devagar, sem soltar o peso."
+   "Ajuste o assento para os cotovelos ficarem na altura do eixo da máquina.",
+   "Apoie os braços nas almofadas.",
+   "Levante os braços para os lados até a altura dos ombros.",
+   "Desça em cerca de 3 segundos."
   ],
-  "d": "O movimento vem do abdômen. Os braços e as pernas só apoiam.",
-  "c": "Não puxe com o pescoço nem com os braços."
+  "d": "Carga leve e ombros longe das orelhas.",
+  "c": "Não passe da altura do ombro e não use impulso."
+ },
+ "leg-press-horizontal": {
+  "m": "Glúteos, posteriores da coxa e quadríceps",
+  "p": [
+   "Sente com costas e quadril apoiados no encosto.",
+   "Pés altos e um pouco afastados na plataforma.",
+   "Empurre sem travar os joelhos.",
+   "Volte devagar até os joelhos chegarem perto de 90°."
+  ],
+  "d": "Pés altos levam mais trabalho para o glúteo e para a parte de trás da coxa.",
+  "c": "Desça só até a lombar não descolar do encosto. Se a dor lombar aparecer, pare e fale com o profissional."
+ },
+ "adutora": {
+  "m": "Parte interna da coxa (adutores)",
+  "p": [
+   "Sente com as costas apoiadas e as pernas abertas nas almofadas.",
+   "Junte as pernas devagar e segure 1 segundo.",
+   "Abra de volta controlando o peso."
+  ],
+  "d": "Equilibra o trabalho da cadeira abdutora do treino A.",
+  "c": "Não deixe o peso bater ao voltar."
  }
 };
 var abertos = {};
-var PILATES = [2, 6];
+var CAMINHADA = [2, 4, 6];
 var SEM = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
 var DIAS = ["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
 var KEY = "kagym-v1";
@@ -409,14 +478,14 @@ if (TREINOS[h]) atual = h;
 
 var t = treinoDoDia(hoje);
 el("hoje").textContent = t ? "Hoje é "+DIAS[hoje]+": treino "+t+", "+TREINOS[t].nome.toLowerCase()+"."
-  : PILATES.indexOf(hoje)>=0 ? "Hoje é "+DIAS[hoje]+": dia de Pilates."
-  : "Hoje é "+DIAS[hoje]+": descanso. Se quiser, uma caminhada leve.";
+  : CAMINHADA.indexOf(hoje)>=0 ? "Hoje é "+DIAS[hoje]+": caminhada leve (20 a 30 min)."
+  : "Hoje é "+DIAS[hoje]+": descanso.";
 
 function desenhaSemana(){
   var html="";
   [1,2,3,4,5,6,0].forEach(function(d){
-    var tr=treinoDoDia(d), pil=PILATES.indexOf(d)>=0;
-    html+='<button class="day'+(d===hoje?" today":"")+(tr?"":" off")+'" data-t="'+(tr||"")+'"><span>'+SEM[d]+'</span><b>'+(tr||(pil?"Pil":"-"))+'</b></button>';
+    var tr=treinoDoDia(d), pil=CAMINHADA.indexOf(d)>=0;
+    html+='<button class="day'+(d===hoje?" today":"")+(tr?"":" off")+'" data-t="'+(tr||"")+'"><span>'+SEM[d]+'</span><b>'+(tr||(pil?"Cam":"-"))+'</b></button>';
   });
   el("semana").innerHTML=html;
 }
@@ -424,7 +493,7 @@ el("semana").onclick=function(e){ var b=e.target.closest(".day"); if(b&&b.datase
 function desenhaAbas(){
   var html="";
   Object.keys(TREINOS).forEach(function(k){
-    html+='<button class="tab" role="tab" data-k="'+k+'" aria-selected="'+(k===atual)+'">'+k+'<small>'+TREINOS[k].nome.split(",")[0].split(" e ")[0]+'</small></button>';
+    html+='<button class="tab" role="tab" data-k="'+k+'" aria-selected="'+(k===atual)+'">'+k+'<small>'+TREINOS[k].curto+'</small></button>';
   });
   el("abas").innerHTML=html;
 }
