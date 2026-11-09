@@ -46,6 +46,7 @@ ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12p
 .card.done{border-color:var(--accent);background:var(--accent-soft)}
 .photo{width:100%;aspect-ratio:4/3;background:#fff;display:flex;align-items:center;justify-content:center;position:relative}
 .photo img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+.photo img[hidden]{display:none}
 .photo .empty[hidden]{display:none}
 .photo .empty{background:var(--line);width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:14px;padding:12px}
 .photo .empty b{display:block;font-size:15px;color:var(--ink);margin-bottom:2px}
@@ -150,6 +151,9 @@ var TREINOS = {
   ]}
 };
 var FOTOS = {
+ "abdominal": "https://www.kikos.com.br/media/catalog/product/cache/041e82462066eef1ae3402cf9c4986f8/i/m/img_site_0010_tts51_-_abdominal_-_linha_titanium_-_kikos_pro_-_sku_i000235_1_1.jpg",
+ "rosca-martelo": "https://totalpass.com/wp-content/uploads/2025/01/rosca-martelo.jpg",
+ "triceps-polia": "https://blog.ciaathletica.com.br/wp-content/uploads/2023/07/Cia-Athletica-triceps-corda-mulher-exercicio-braco-Autores-GS2-Marketing-Divulgacao.jpg",
  "abdutora": "https://ergolife.com.br/wp-content/uploads/2020/04/Ergolife-Adutor-Absutor-G3-Cinza-1.jpg",
  "coice-gluteo": "https://www.kikos.com.br/media/catalog/product/cache/041e82462066eef1ae3402cf9c4986f8/f/o/fotos_site_c2s78_-_gluteo_-_linha_concept_ii_-_kikos_pro_-_sku_i002119.jpg",
  "crucifixo": "https://www.aheadsports.com.br/upload/produto/imagem/72fab59815194e6936cb780e6ec5597f.webp",
