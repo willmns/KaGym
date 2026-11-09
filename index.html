@@ -79,6 +79,16 @@ ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12p
 .timer #tSel{background:var(--ink);color:var(--bg);padding:14px 12px;font-size:14px}
 .timer.fim #tBtn{background:var(--warn)}
 main{padding-bottom:84px}
+.moreinfo{border-top:1px solid var(--line);font-size:15px}
+.moreinfo summary{list-style:none;cursor:pointer;padding:12px 14px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:8px}
+.moreinfo summary::-webkit-details-marker{display:none}
+.moreinfo summary::before{content:"+";display:inline-flex;width:22px;height:22px;border-radius:50%;border:2px solid var(--accent);align-items:center;justify-content:center;font-size:16px;line-height:1}
+.moreinfo[open] summary::before{content:"\2212"}
+.moreinfo .in{padding:0 14px 14px;display:flex;flex-direction:column;gap:8px;color:var(--ink)}
+.moreinfo .in b{font-family:var(--display);font-size:17px}
+.moreinfo .in ol{list-style:decimal;padding-left:20px;gap:4px;color:var(--ink)}
+.moreinfo .in p{margin:0;color:var(--muted)}
+.moreinfo .alerta{border-left:3px solid var(--warn);padding-left:10px;color:var(--ink)}
 @media (prefers-reduced-motion:reduce){.bar>i{transition:none}}
 </style>
 </head>
@@ -171,6 +181,213 @@ var FOTOS = {
  "supino-maquina": "https://cdn.awsli.com.br/2500x2500/1963/1963758/produto/157384428/5b9904b36e.jpg",
  "crucifixo-inverso": "https://www.aheadsports.com.br/upload/produto/imagem/72fab59815194e6936cb780e6ec5597f.webp"
 };
+var INFO = {
+ "leg-press": {
+  "m": "Quadríceps, glúteos e posteriores da coxa",
+  "p": [
+   "Sente com costas e quadril bem apoiados no encosto.",
+   "Pés na largura dos ombros, na altura média da plataforma.",
+   "Destrave e desça devagar até os joelhos chegarem perto de 90°.",
+   "Empurre pelos calcanhares sem travar os joelhos no final."
+  ],
+  "d": "Joelhos na direção dos pés, sem cair para dentro. Expire ao empurrar.",
+  "c": "Se o quadril descolar do banco no fim da descida, diminua a amplitude: isso sobrecarrega a lombar. Como você relatou dor lombar, peça ao profissional para conferir sua execução."
+ },
+ "mesa-flexora": {
+  "m": "Posteriores da coxa (isquiotibiais)",
+  "p": [
+   "Deite de barriga para baixo, com os joelhos logo na borda do banco.",
+   "Ajuste o rolo logo acima dos calcanhares.",
+   "Leve os calcanhares em direção ao bumbum e segure 1 segundo.",
+   "Volte em 2 a 3 segundos, sem soltar o peso."
+  ],
+  "d": "Mantenha o quadril colado no banco durante todo o movimento.",
+  "c": "Se o quadril levantar, a carga está alta demais."
+ },
+ "puxada-frontal": {
+  "m": "Dorsais (costas), bíceps e parte de trás do ombro",
+  "p": [
+   "Pegada um pouco mais larga que os ombros e joelhos presos sob o apoio.",
+   "Peito aberto, tronco levemente inclinado para trás.",
+   "Puxe a barra até a altura do queixo, levando os cotovelos para baixo.",
+   "Suba devagar até os braços quase esticarem."
+  ],
+  "d": "Pense em puxar com os cotovelos, não com as mãos.",
+  "c": "Evite balançar o tronco e puxar a barra por trás da nuca."
+ },
+ "supino-maquina": {
+  "m": "Peitoral, parte da frente do ombro e tríceps",
+  "p": [
+   "Ajuste o banco para que as pegadas fiquem na altura do meio do peito.",
+   "Costas coladas no encosto e ombros para trás e para baixo.",
+   "Empurre à frente sem travar os cotovelos.",
+   "Volte devagar até sentir o peito alongar."
+  ],
+  "d": "Expire ao empurrar e inspire ao voltar.",
+  "c": "Não deixe os ombros subirem em direção às orelhas."
+ },
+ "rosca-polia": {
+  "m": "Bíceps",
+  "p": [
+   "Em pé, de frente para a polia baixa, com a barra nas mãos.",
+   "Cotovelos colados ao tronco.",
+   "Dobre os cotovelos até a barra chegar perto dos ombros.",
+   "Desça devagar até esticar quase por completo."
+  ],
+  "d": "Só o antebraço se move. O tronco fica parado.",
+  "c": "Se precisar balançar o corpo para subir, reduza a carga."
+ },
+ "panturrilha": {
+  "m": "Panturrilha (gastrocnêmio e sóleo)",
+  "p": [
+   "Apoie só a ponta dos pés na plataforma, com o calcanhar livre.",
+   "Suba o máximo que conseguir e segure 1 segundo.",
+   "Desça alongando bem a panturrilha."
+  ],
+  "d": "Movimento completo e lento rende mais que carga pesada.",
+  "c": "Não faça quicando: o tendão do calcanhar sofre."
+ },
+ "hip-thrust": {
+  "m": "Glúteo máximo (e posteriores da coxa)",
+  "p": [
+   "Apoie as costas no banco, na altura da base das escápulas.",
+   "Pés no chão, na largura do quadril, joelhos dobrados.",
+   "Empurre o quadril para cima até tronco e coxas ficarem alinhados.",
+   "Contraia o glúteo por 1 segundo e desça controlando."
+  ],
+  "d": "Queixo próximo ao peito e olhar à frente ajudam a manter a postura.",
+  "c": "Não suba além do alinhamento arqueando a lombar. Como você relatou dor lombar, peça conferência do movimento ao profissional."
+ },
+ "extensora": {
+  "m": "Quadríceps (frente da coxa)",
+  "p": [
+   "Costas coladas no encosto, joelho alinhado com o eixo da máquina.",
+   "Almofada logo acima do tornozelo.",
+   "Estenda as pernas até quase esticar e segure 1 segundo.",
+   "Desça devagar, sem soltar o peso."
+  ],
+  "d": "Contraia a coxa no topo do movimento.",
+  "c": "Não balance o tronco nem trave o joelho com força no final."
+ },
+ "remada-sentada": {
+  "m": "Dorsais, músculos entre as escápulas e bíceps",
+  "p": [
+   "Sente com a coluna ereta e o peito aberto.",
+   "Puxe levando os cotovelos para trás e aproximando as escápulas.",
+   "Segure 1 segundo no final.",
+   "Volte devagar, sem arredondar as costas."
+  ],
+  "d": "Imagine esmagar uma bolinha entre as escápulas.",
+  "c": "Não jogue o tronco para trás para ajudar na puxada."
+ },
+ "desenv-ombros": {
+  "m": "Ombros (deltoides) e tríceps",
+  "p": [
+   "Ajuste o banco para as pegadas ficarem na altura dos ombros.",
+   "Costas apoiadas no encosto.",
+   "Empurre para cima sem travar os cotovelos.",
+   "Desça devagar até os cotovelos formarem uns 90°."
+  ],
+  "d": "Abdômen firme para a lombar não arquear.",
+  "c": "Se a lombar sair do encosto, reduza a carga."
+ },
+ "rosca-martelo": {
+  "m": "Bíceps, braquial e antebraço",
+  "p": [
+   "Em pé ou sentado, halteres ao lado do corpo com as palmas voltadas uma para a outra.",
+   "Cotovelos colados ao tronco.",
+   "Dobre os cotovelos levando os halteres aos ombros, sem girar o punho.",
+   "Desça devagar."
+  ],
+  "d": "Pode alternar um braço de cada vez.",
+  "c": "Evite balançar o corpo para subir o peso."
+ },
+ "triceps-polia": {
+  "m": "Tríceps",
+  "p": [
+   "Em pé, de frente para a polia alta, com a corda nas mãos.",
+   "Cotovelos colados ao tronco e antebraços na altura do peito.",
+   "Estique os braços para baixo, abrindo levemente as pontas da corda no final.",
+   "Volte devagar até os cotovelos formarem uns 90°."
+  ],
+  "d": "Só os antebraços se movem. Os cotovelos ficam parados.",
+  "c": "Se os ombros ou o tronco entrarem no movimento, diminua a carga."
+ },
+ "abdutora": {
+  "m": "Glúteo médio e músculos laterais do quadril",
+  "p": [
+   "Sente com as costas apoiadas e os pés nos apoios.",
+   "Abra as pernas até onde o movimento estiver confortável.",
+   "Segure 1 segundo e volte devagar."
+  ],
+  "d": "Quadril colado ao banco o tempo todo.",
+  "c": "Não use impulso nem incline o tronco para ajudar."
+ },
+ "hack-squat": {
+  "m": "Quadríceps e glúteos",
+  "p": [
+   "Costas e quadril apoiados, pés na largura dos ombros.",
+   "Destrave e desça controlando até os joelhos chegarem perto de 90°.",
+   "Empurre pelos calcanhares para subir, sem travar os joelhos."
+  ],
+  "d": "Pés mais baixos na plataforma pedem mais da coxa. Pés mais altos pedem mais do glúteo.",
+  "c": "Se o quadril descolar do encosto, diminua a descida. Como você relatou dor lombar, peça conferência do movimento ao profissional."
+ },
+ "flexora": {
+  "m": "Posteriores da coxa (isquiotibiais)",
+  "p": [
+   "Sente com as costas apoiadas e o joelho alinhado com o eixo.",
+   "Almofada logo acima do calcanhar.",
+   "Dobre os joelhos levando os calcanhares para baixo e para trás.",
+   "Volte devagar, sem soltar o peso."
+  ],
+  "d": "Segure 1 segundo na contração.",
+  "c": "Não levante o quadril do assento."
+ },
+ "coice-gluteo": {
+  "m": "Glúteo máximo",
+  "p": [
+   "Apoie o peito e as mãos no suporte, com o pé na plataforma.",
+   "Empurre o calcanhar para trás e para cima.",
+   "Contraia o glúteo por 1 segundo.",
+   "Volte devagar. Repita todas as repetições e troque de perna."
+  ],
+  "d": "Faça o movimento só com o quadril, sem girar o corpo.",
+  "c": "Não arqueie a lombar para levantar mais a perna."
+ },
+ "crucifixo-inverso": {
+  "m": "Parte de trás do ombro e músculos entre as escápulas",
+  "p": [
+   "Sente de frente para o encosto, com o peito apoiado.",
+   "Braços na altura dos ombros, cotovelos levemente dobrados.",
+   "Abra os braços para trás até alinhar com o corpo.",
+   "Volte devagar."
+  ],
+  "d": "Carga leve e movimento limpo. Esse músculo é pequeno.",
+  "c": "Não encolha os ombros em direção às orelhas."
+ },
+ "crucifixo": {
+  "m": "Peitoral",
+  "p": [
+   "Costas coladas no encosto, cotovelos levemente dobrados na altura do peito.",
+   "Junte os braços à frente, apertando o peito por 1 segundo.",
+   "Volte devagar, sem deixar os braços irem muito para trás."
+  ],
+  "d": "Imagine abraçar uma árvore grande.",
+  "c": "Voltar demais com os braços sobrecarrega o ombro."
+ },
+ "abdominal": {
+  "m": "Abdômen (reto abdominal)",
+  "p": [
+   "Ajuste o assento e use uma carga leve.",
+   "Contraia o abdômen aproximando as costelas do quadril, expirando.",
+   "Volte devagar, sem soltar o peso."
+  ],
+  "d": "O movimento vem do abdômen. Os braços e as pernas só apoiam.",
+  "c": "Não puxe com o pescoço nem com os braços."
+ }
+};
+var abertos = {};
 var PILATES = [2, 6];
 var SEM = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
 var DIAS = ["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
@@ -232,10 +449,20 @@ function desenhaLista(){
       '<div class="meta"><span class="pill">'+it[2]+'</span>'+
       '<label class="load">Carga <input type="text" inputmode="decimal" placeholder="kg" value="'+esc(carga)+'" data-id="'+id+'"></label>'+
       '<span class="links"><a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q='+encodeURIComponent(it[4])+'">Fotos</a>'+
-      '<a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query='+encodeURIComponent("como fazer "+it[0])+'">Vídeo</a></span></div></div></li>';
+      '<a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query='+encodeURIComponent("como fazer "+it[0])+'">Vídeo</a></span></div></div>'+infoHtml(it[3],id)+'</li>';
   });
   el("conteudo").innerHTML=html+"</ol>";
 }
+function infoHtml(key,id){
+  var f=INFO[key]; if(!f) return "";
+  return '<details class="moreinfo" data-k="'+id+'"'+(abertos[id]?' open':'')+'><summary>Informações</summary><div class="in">'+
+    '<div><b>Músculos trabalhados</b><p>'+f.m+'</p></div>'+
+    '<div><b>Como fazer</b><ol>'+f.p.map(function(x){return '<li>'+x+'</li>';}).join("")+'</ol></div>'+
+    '<div><b>Dica</b><p>'+f.d+'</p></div>'+
+    (f.c?'<div class="alerta"><b>Cuidado</b><p>'+f.c+'</p></div>':'')+
+    '<p>Respiração: expire no esforço e inspire ao voltar. Pare se sentir dor aguda.</p></div></details>';
+}
+el("conteudo").addEventListener("toggle",function(e){ var d=e.target; if(d.dataset&&d.dataset.k){ if(d.open) abertos[d.dataset.k]=1; else delete abertos[d.dataset.k]; } },true);
 function registra(i){
   var it=TREINOS[atual].itens[i], id=atual+i;
   estado.hist[dataKey+"_"+id]={data:dataKey,treino:atual,exercicio:it[0],series:it[2],carga:estado.cargas[id]||"",feito:!!estado.done[dataKey+id]};
