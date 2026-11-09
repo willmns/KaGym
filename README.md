@@ -4,6 +4,8 @@ App de treino (musculação A/B/C + Pilates) para celular. Arquivo único, funci
 
 ## Fotos dos aparelhos
 
+16 dos 19 aparelhos já usam fotos de catálogo ligadas por link (o objeto `FOTOS` no `index.html`). Ficaram sem foto: abdominal, tríceps na polia e rosca martelo. Os links podem sair do ar; nesse caso o app tenta a pasta `fotos/` e, por fim, mostra o botão "Minha foto".
+
 Coloque as fotos na pasta `fotos/`, em JPG, com estes nomes. O app mostra a foto automaticamente.
 Se faltar o arquivo, aparece o botão "Minha foto" para tirar uma pelo celular.
 
