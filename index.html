@@ -44,10 +44,10 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
 .card.done{border-color:var(--accent);background:var(--accent-soft)}
-.photo{width:100%;aspect-ratio:4/3;background:var(--line);display:flex;align-items:center;justify-content:center;position:relative}
-.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo{width:100%;aspect-ratio:4/3;background:#fff;display:flex;align-items:center;justify-content:center;position:relative}
+.photo img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
 .photo .empty[hidden]{display:none}
-.photo .empty{text-align:center;color:var(--muted);font-size:14px;padding:12px}
+.photo .empty{background:var(--line);width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:14px;padding:12px}
 .photo .empty b{display:block;font-size:15px;color:var(--ink);margin-bottom:2px}
 .photo .addbtn{position:absolute;right:8px;bottom:8px;font:inherit;font-size:13px;font-weight:600;padding:7px 12px;border-radius:99px;
   border:0;background:rgba(0,0,0,.65);color:#fff;cursor:pointer}
@@ -73,6 +73,11 @@ ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12p
 .btn{font:inherit;font-weight:600;padding:12px 16px;border-radius:10px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
 .btn.alt{background:transparent;color:var(--accent)}
 .row{display:flex;gap:8px;flex-wrap:wrap}
+.timer{position:fixed;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));z-index:20;display:flex;gap:0;box-shadow:0 4px 16px rgba(0,0,0,.3);border-radius:99px;overflow:hidden}
+.timer button{font:inherit;font-weight:700;border:0;cursor:pointer;background:var(--accent);color:var(--accent-ink);padding:14px 18px}
+.timer #tSel{background:var(--ink);color:var(--bg);padding:14px 12px;font-size:14px}
+.timer.fim #tBtn{background:var(--warn)}
+main{padding-bottom:84px}
 @media (prefers-reduced-motion:reduce){.bar>i{transition:none}}
 </style>
 </head>
@@ -113,6 +118,7 @@ ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12p
   </section>
   <p class="sub" style="font-size:13px">Este plano é uma referência geral e deve ser ajustado pelo profissional que acompanha seus treinos.</p>
 </main>
+<div class="timer" id="timer"><button id="tSel" type="button" aria-label="Trocar tempo de descanso">60 s</button><button id="tBtn" type="button">Descanso 60s</button></div>
 <script>
 // [nome, aparelho, séries x reps, chave da foto, busca]
 var TREINOS = {
@@ -152,12 +158,12 @@ var FOTOS = {
  "flexora": "https://img.irroba.com.br/fit-in/1000x1000/filters:format(webp):fill(fff):quality(80)/natuoaeu/catalog/produtos-2025/linha-f/cadeira-flexora-linha-cs-f23.jpg",
  "hack-squat": "https://totalhealth.com.br/uploads/pagina/elemento/campo/2024/01/euY5JuVlRtfhpso2/639rxs-1.jpg",
  "hip-thrust": "https://totalhealth.com.br/uploads/pagina/elemento/campo/2025/02/hFtobWmRFM5IuocE/660rxs-2.jpg",
- "leg-press": "https://gears.com.br/wp-content/uploads/2024/08/leg-press-45-6.jpg",
+ "leg-press": "https://images.tcdn.com.br/img/img_prod/645555/noticia_8541999256875a7f858d1d.jpg",
  "mesa-flexora": "https://cdn.awsli.com.br/329/329912/produto/325006792/66f165_18306125ed344f2babca7725dcfef16e-mv2-photoroom-6i6rfavs2r.png",
  "panturrilha": "https://www.xfitnessequipamentos.com.br/wp-content/uploads/2021/05/panturrilha-sentada-xtreme.jpg",
  "puxada-frontal": "https://images.tcdn.com.br/img/img_prod/450774/aparelho_puxada_alta_e_baixa_conjugada_para_musculacao_ultrawod_1222_1_93ef9973b35a20186c9b2dc527fc2222.jpg",
  "remada-sentada": "https://img.irroba.com.br/filters:format(webp):fill(fff):quality(80)/natuoaeu/catalog/produtos-2025/academia/equipamentos-de-musculacao/linha-pl/cst-pl08/pl08.jpg",
- "rosca-polia": "https://totalpass.com/wp-content/uploads/2026/07/Rosca-direta-na-polia.jpg",
+ "rosca-polia": "https://s3.amazonaws.com/prod.skimble/assets/1905257/image_iphone.jpg",
  "supino-maquina": "https://cdn.awsli.com.br/2500x2500/1963/1963758/produto/157384428/5b9904b36e.jpg",
  "crucifixo-inverso": "https://www.aheadsports.com.br/upload/produto/imagem/72fab59815194e6936cb780e6ec5597f.webp"
 };
@@ -298,6 +304,23 @@ el("copiar").onclick=function(){
     .forEach(function(o){ L.push([o.data,o.treino,'"'+o.exercicio+'"','"'+o.series+'"',String(o.carga).replace(",","."),o.feito?"sim":"não"].join(",")); });
   try{ navigator.clipboard.writeText(L.join("\n")).then(function(){status("Histórico copiado.");},function(){status("Não deixou copiar. Tente de novo.");}); }
   catch(e){ status("Não deixou copiar. Tente de novo."); }
+};
+
+// Timer de descanso (60 ou 90 s)
+var tDur=60, tmr=null, tAudio=null;
+function bip(){ try{ tAudio=tAudio||new (window.AudioContext||window.webkitAudioContext)(); var o=tAudio.createOscillator(),g=tAudio.createGain(); o.connect(g); g.connect(tAudio.destination); o.frequency.value=880; g.gain.value=.2; o.start(); o.stop(tAudio.currentTime+.35); }catch(e){} }
+function tReset(){ el("tBtn").textContent="Descanso "+tDur+"s"; el("timer").classList.remove("fim"); }
+el("tSel").onclick=function(){ if(tmr) return; tDur=tDur===60?90:60; el("tSel").textContent=tDur+" s"; tReset(); };
+el("tBtn").onclick=function(){
+  var b=el("tBtn");
+  if(tmr){ clearInterval(tmr); tmr=null; tReset(); return; }
+  var t=tDur; bip(); b.textContent="Descansando "+t+"s (toque p/ parar)";
+  tmr=setInterval(function(){
+    t--;
+    if(t<=0){ clearInterval(tmr); tmr=null; el("timer").classList.add("fim"); b.textContent="Próxima série!";
+      try{ navigator.vibrate&&navigator.vibrate([300,150,300]); }catch(e){} bip(); setTimeout(tReset,5000); }
+    else b.textContent="Descansando "+t+"s (toque p/ parar)";
+  },1000);
 };
 
 desenhaSemana(); desenhaAbas(); desenhaLista();
